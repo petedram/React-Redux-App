@@ -1,22 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import FoodItem from './FoodItem';
+import { addRestaurant } from '../actions/actions';
+import { makeStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 
 
-
-
-
-  //curl -X GET --header "Accept: application/json" --header "user-key: aaeae4170f024f5a7f7949ad18ba80f9" "https://developers.zomato.com/api/v2.1/location_details?entity_id=61&entity_type=city"
-
-
-  // axios.get('https://developers.zomato.com/api/v2.1/location_details?entity_id=61&entity_type=city', {
-  //   params: {"user-key": "aaeae4170f024f5a7f7949ad18ba80f9","Accept":"application/json"}
-
-
-    // curl -X GET --header "Accept: application/json" --header "user-key: aaeae417" "https://developers.zomato.com/api/v2.1/location_details?entity_id=61&entity_type=city"
-
-  //data.best_rated_restaurant[0]
+const useStyles = makeStyles(theme => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+}));
+//data.best_rated_restaurant[0]
   //array of 10:
 
   //name: data.best_rated_restaurant[0].restaurant.name
@@ -32,43 +30,40 @@ import FoodItem from './FoodItem';
 
     const FoodList = props => {
 
-    axios({
-        method: 'get',
-            url: 'https://developers.zomato.com/api/v2.1/location_details?entity_id=61&entity_type=city',
-            headers: {'user-key': 'aaeae4170f024f5a7f7949ad18ba80f9'}
-        }) 
-    .then(function (response) {
-        console.log(response);
-    })
-    .catch(function (error) {
-        console.log(error);
-    });
+      const loadCards = e => {
 
+        console.log(props);
+
+        props.restaurants.forEach(item => {
+          console.log('item',item);
+        });
+
+      }
+
+      useEffect(() => {
+        props.addRestaurant();
+      }, []);
 
         return (
-          <div className="content">
-            <h6>Added features:</h6>
-            <FoodItem />
-            {/* {props.car.features.length ? (
-              <ol type="1">
-                {props.car.features.map(item => (
-                  <FoodItem key={item.id} feature={item} />
-                ))}
-              </ol> */}
-            ) : (
-            )}
-          </div>
+          <>
+          {props.error ? (
+              <div className="error">{props.error}</div>
+          ) : (
+            <div className="content">
+            <Button onClick={loadCards} variant="contained" color="primary">Get Restaurants</Button>
+            </div>
+          )}
+        </>
         );
       };
       
       const mapStateToProps = state => {
         return {
-        //   additionalPrice: state.additionalPrice,
-        //   car: state.car,
-        //   additionalFeatures: state.additionalFeatures
-        }
+          restaurants: state.restaurants,
+          error: state.error
+        };
       }
 
       export default connect(
         mapStateToProps,
-        {})(FoodList);
+        {addRestaurant})(FoodList);

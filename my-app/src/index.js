@@ -6,9 +6,16 @@ import * as serviceWorker from './serviceWorker';
 
 import { foodReducer as reducer } from './reducers';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 
-const store = createStore(reducer);
+
+
+
+const store = createStore(
+    reducer,
+    applyMiddleware(thunk)
+  );
 
 
 const rootElement = document.getElementById('root');

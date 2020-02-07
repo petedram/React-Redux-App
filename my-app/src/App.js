@@ -3,11 +3,13 @@ import './App.css';
 import 'typeface-roboto';
 import FoodList from './components/FoodList';
 
+
 import { connect } from 'react-redux';
 
 
-function App() {
+const App = props => {
 
+  console.log('props from app', props.restaurants);
 
   return (
     <div className="App">
@@ -19,9 +21,7 @@ function App() {
 
 const mapStateToProps = state => {
   return {
-    // additionalPrice: state.additionalPrice,
-    // car: state.car,
-    // additionalFeatures: state.additionalFeatures
+    restaurants: state.restaurants
   }
 }
 
