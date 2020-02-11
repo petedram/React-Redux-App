@@ -6,6 +6,13 @@ import { addRestaurant } from '../actions/actions';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Typography from '@material-ui/core/Typography';
+import Rating from '@material-ui/lab/Rating';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -30,13 +37,50 @@ const useStyles = makeStyles(theme => ({
 
     const FoodList = props => {
 
-      const loadCards = e => {
+      const useStyles = makeStyles({
+        root: {
+          maxWidth: 345,
+        },
+        media: {
+          height: 140,
+        },
+      });
 
-        console.log(props);
+      const classes = useStyles();
 
-        props.restaurants.forEach(item => {
-          console.log('item',item);
-        });
+      function loadCards() {
+        console.log('load cards');
+        console.log('props from loadCards', props);
+
+        var result = props.restaurants.map(item => (
+
+        <div ClassName='card-style'>
+          <Card className={classes.root}>
+                <CardActionArea>
+                    <CardMedia
+                      className={classes.media}
+                      image={item.restaurant.thumb}
+                      title="NAME"
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="h2">
+                      {item.restaurant.name}
+                      </Typography>
+                      <Rating name="read-only" value={item.restaurant.user_rating.aggregate_rating} readOnly />
+                      <Typography variant="subtitle1" color="textSecondary">
+                      {item.restaurant.cuisines}
+                      </Typography>
+                      <Typography variant="body2" color="textSecondary" component="p">
+                      {item.restaurant.location.address}
+                      </Typography>
+                    </CardContent>
+                </CardActionArea>
+            </Card>
+            <br />
+          </div>
+
+      ))
+      return result
 
       }
 
@@ -50,7 +94,7 @@ const useStyles = makeStyles(theme => ({
               <div className="error">{props.error}</div>
           ) : (
             <div className="content">
-            <Button onClick={loadCards} variant="contained" color="primary">Get Restaurants</Button>
+            {loadCards()}
             </div>
           )}
         </>

@@ -14,7 +14,10 @@ const App = props => {
   return (
     <div className="App">
      <h1>Async Redux</h1>
-     <FoodList />
+     <h2>Top restaurants in London from the Zomato API</h2>
+       <div className='cards'>
+        <FoodList />
+      </div>
     </div>
   );
 }

@@ -1,7 +1,7 @@
 
 
 export const initialState = {
-    restaurants: ''
+    restaurants: []
   };
 
 
@@ -12,7 +12,10 @@ export const foodReducer = (state = initialState, action) => {
         console.log('logging features from reducer', state)
         return {
           ...state,
-          restaurants: [...state.restaurants, action.payload]
+          restaurants: action.payload.best_rated_restaurant
+
+          // restaurants: [...state.restaurants, action.payload]
+          
         }
       case 'SET_ERROR':
         return {
